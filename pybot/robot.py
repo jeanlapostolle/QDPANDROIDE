@@ -66,7 +66,7 @@ class Robot(pygame.Rect):
         wp = []
         dist = 5
         for w in walls:
-            mp = (int(self.center[0] + dist * cos(radians(self.angle + angle))),
+            mp = (int(self.center[0] - dist * cos(radians(self.angle + angle))),
                   int(self.center[1] + dist * sin(radians(self.angle + angle))))
             a, b = w.begin, w.end
             p = intersect(w.begin, w.end, self.center, mp)
@@ -92,10 +92,7 @@ class Robot(pygame.Rect):
             pos = dp.index(min(dp))
             return wp[pos]
         return None
-    
-    def radar(self,walls):
-        return [radarX(walls,self.angle+90*k) for k in range(4)];
-    
+
     def radarX(self,walls,angle):
         x0,y0 = self.center
         r = self.rayonRadar
@@ -109,6 +106,12 @@ class Robot(pygame.Rect):
             if collideLineLine((x2,y2),(x1,y1),wall.begin,wall.end):
                 return 1;
         return 0;
+    
+    def radar(self,walls):
+        return [self.radarX(walls,self.angle+90*k) for k in range(4)];
+    
+    def perception(self,walls):
+        return [distc(self.center,i) for i in self.sensor(walls)]+self.radar(walls);
     
 #test     
 #def radar(x0,y0,angle):

@@ -25,7 +25,7 @@ def collideRectLine(r1, r2, r3, r4, l1, l2):
 
 
 def distc(p1, p2):
-    return (p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2
+    return sqrt((p2[0] - p1[0]) ** 2 + (p2[1] - p1[1]) ** 2)
 
 
 def collidePointLine(p, l1, l2):

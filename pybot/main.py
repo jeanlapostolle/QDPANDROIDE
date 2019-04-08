@@ -85,7 +85,7 @@ while 1:
     print("fps :" + str(int(clock.get_fps())), end='\r', flush=True)
 
     screen.fill(background_color)
-
+    
     for robot in robots:
         mimg = pygame.transform.rotate(robotimg, - robot.angle - 90)
         pp = robot.sensor(walls)
