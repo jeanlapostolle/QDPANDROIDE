@@ -9,7 +9,7 @@ import threading
 pygame.init()
 
 # Parametre
-maze = 2
+maze = 1
 background_color = 255, 255, 255
 NbOfRobot = 1
 fps = 99
@@ -54,7 +54,7 @@ finish = finishimg.get_rect()
 finish.center = finish_position
 
 
-robots = [Robot((width / 10, height * 3 / 10), robotimg)
+robots = [Robot((width / 10, height * 3 / 10), robotimg, 20)
           for i in range(NbOfRobot)]
 
 
