@@ -11,12 +11,13 @@ import mlp
 
 
 class Robot(pygame.Rect):
-    def __init__(self, beginPosition, image, rayonRadar):
+    def __init__(self, beginPosition, image, rayonRadar, brain):
         super(pygame.Rect, self).__init__()
         self.center = beginPosition
         self.size = (32, 32)
         self.angle = randint(0, 360)
         self.rayonRadar = rayonRadar
+        self.brain = brain
         # self.mymlp = mlp.MLP(12, 8, 2)
         # self.myBack = mlp.Backpropagation(self.mymlp, 0.3, 0.001)
 
@@ -27,14 +28,14 @@ class Robot(pygame.Rect):
         # dist = int(d * 5)
         # angle = int(a * 360)
         old_center = self.center
-        angle, dist = randint(-100, 100), randint(2, 3)
+        angle = self.brain(self.perception(walls))
 
         self.angle = (self.angle + angle) % 360
 
-        ox, oy = int(dist * cos(radians(self.angle))
-                     ), int(dist * sin(radians(self.angle)))
-        self.centerx += speed * ox
-        self.centery += speed * oy
+        ox, oy = int(speed * cos(radians(self.angle))
+                     ), int(speed * sin(radians(self.angle)))
+        self.centerx += ox
+        self.centery += oy
         if self.left < 0 or self.right > width or self.top < 0 or self.bottom > height:
             self.centerx -= speed * ox
             self.centery -= speed * oy

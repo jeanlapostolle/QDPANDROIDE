@@ -4,7 +4,7 @@ from robot import Robot
 from wall import Wall
 from math import cos, sin, radians
 import threading
-
+import random
 
 pygame.init()
 
@@ -54,7 +54,7 @@ finish = finishimg.get_rect()
 finish.center = finish_position
 
 
-robots = [Robot((width / 10, height * 3 / 10), robotimg, 20)
+robots = [Robot((width / 10, height * 3 / 10), robotimg, 20,(lambda x:random.randint(-100,100)))
           for i in range(NbOfRobot)]
 
 
