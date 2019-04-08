@@ -27,6 +27,7 @@ class Robot(pygame.Rect):
         # angle = int(a * 360)
         old_center = self.center
         angle, dist = randint(-100, 100), randint(2, 3)
+
         self.angle = (self.angle + angle) % 360
 
         ox, oy = int(dist * cos(radians(self.angle))
@@ -72,6 +73,19 @@ class Robot(pygame.Rect):
             if p != None:
                 if p[0] >= a[0] and p[0] <= b[0] and p[1] <= b[1] and p[1] >= a[1]:
                     wp.append(p)
+                    # ms = (int(self.center[0] + dist * cos(radians(self.angle + angle + 90))),
+                    #       int(self.center[1] + dist * sin(radians(self.angle + angle + 90))))
+                    #
+                    # c, d = droite(self.center, ms)
+                    # d = evalPointDroite(p, (c, d))
+                    # ang = (self.angle + angle) % 360
+                    # if ang <= 270 and ang >= 90:
+                    #     if c > 0:
+                    #         wp.append(p)
+                    # else:
+                    #     if c < 0:
+                    #         wp.append(p)
+        # print(wp)
         dp = [distc(self.center, i) for i in wp]
         if dp != []:
             pos = dp.index(min(dp))

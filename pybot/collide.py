@@ -56,6 +56,11 @@ def droite(A, B):
     return a, b
 
 
+def evalPointDroite(p, droite):
+    a, b = droite
+    return a * p[0] - p[1] + b
+
+
 def intersect(l1, l2, l3, l4):
     a, b = droite(l1, l2)
     ap, bp = droite(l3, l4)
