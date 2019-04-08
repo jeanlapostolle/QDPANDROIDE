@@ -80,10 +80,13 @@ class Robot(pygame.Rect):
         return None
     
     def radar(self,walls):
+        return [radarX(walls,self.angle+90*k) for k in range(4)];
+    
+    def radarX(self,walls,angle):
         x0,y0 = self.center
         r = self.rayonRadar
-        x1,y1 = x0-r*cos(radians(self.angle-45)), y0+r*sin(radians(self.angle-45));
-        x2,y2 = x0-r*cos(radians(self.angle+45)), y0+r*sin(radians(self.angle+45));
+        x1,y1 = x0-r*cos(radians(angle-45)), y0+r*sin(radians(angle-45));
+        x2,y2 = x0-r*cos(radians(angle+45)), y0+r*sin(radians(angle+45));
         for wall in walls:
             if collideLineLine((x0,y0),(x1,y1),wall.begin,wall.end):
                 return 1;
@@ -92,6 +95,7 @@ class Robot(pygame.Rect):
             if collideLineLine((x2,y2),(x1,y1),wall.begin,wall.end):
                 return 1;
         return 0;
+    
 #test     
 #def radar(x0,y0,angle):
 #    r = 1
