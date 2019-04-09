@@ -64,7 +64,7 @@ def moveall():
         move(robot)
         
 
-robots = [Robot((width / 10, height * 3 / 10), robotimg, radarRayon,(lambda x:random.randint(-100,100)),finish.center)
+robots = [Robot((width / 10, height * 3 / 10), robotimg, radarRayon,(lambda x:random.randint(-100,100)),finish.center, speed)
           for i in range(NbOfRobot)]
 
 # Boucle de "Jeu"
