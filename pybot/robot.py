@@ -94,8 +94,10 @@ class Robot(pygame.Rect):
         if dp != []:
             pos = dp.index(min(dp))
             return wp[pos]
-        return None
-
+        return a  # TO DO:  a ameliorer   
+                      #********** retourne none cause des erreur dans la fonction perception
+                      # parce que l'on ne peut pas calculer la distance observee
+ 
     def radarX(self,walls,angle):
         '''radar sensor fires when the goal is within the pie-clice
         '''
@@ -115,7 +117,9 @@ class Robot(pygame.Rect):
         return [self.radarX(walls,self.angle+90*k) for k in range(4)];
     
     def perception(self,walls):
-        return [distc(self.center,i) for i in self.sensor(walls)]+self.radar(walls);
+        sensordata = self.sensor(walls)
+        assert None not in sensordata
+        return [distc(self.center,i) for i in sensordata]+self.radar(walls);
     
 #test     
 #def radar(x0,y0,angle):
