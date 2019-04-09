@@ -11,12 +11,14 @@ import mlp
 
 
 class Robot(pygame.Rect):
-    def __init__(self, beginPosition, image, rayonRadar):
+    def __init__(self, beginPosition, image, rayonRadar, brain, goal):
         super(pygame.Rect, self).__init__()
         self.center = beginPosition
         self.size = (32, 32)
         self.angle = randint(0, 360)
         self.rayonRadar = rayonRadar
+        self.brain = brain
+        self.goal = goal;
         # self.mymlp = mlp.MLP(12, 8, 2)
         # self.myBack = mlp.Backpropagation(self.mymlp, 0.3, 0.001)
 
@@ -27,14 +29,14 @@ class Robot(pygame.Rect):
         # dist = int(d * 5)
         # angle = int(a * 360)
         old_center = self.center
-        angle, dist = randint(-100, 100), randint(2, 3)
+        angle = self.brain(self.perception(walls))
 
         self.angle = (self.angle + angle) % 360
 
-        ox, oy = int(dist * cos(radians(self.angle))
-                     ), int(dist * sin(radians(self.angle)))
-        self.centerx += speed * ox
-        self.centery += speed * oy
+        ox, oy = int(speed * cos(radians(self.angle))
+                     ), int(speed * sin(radians(self.angle)))
+        self.centerx += ox
+        self.centery += oy
         if self.left < 0 or self.right > width or self.top < 0 or self.bottom > height:
             self.centerx -= speed * ox
             self.centery -= speed * oy
@@ -94,17 +96,18 @@ class Robot(pygame.Rect):
         return None
 
     def radarX(self,walls,angle):
+        '''radar sensor fires when the goal is within the pie-clice
+        '''
         x0,y0 = self.center
         r = self.rayonRadar
         x1,y1 = x0-r*cos(radians(angle-45)), y0+r*sin(radians(angle-45));
         x2,y2 = x0-r*cos(radians(angle+45)), y0+r*sin(radians(angle+45));
-        for wall in walls:
-            if collideLineLine((x0,y0),(x1,y1),wall.begin,wall.end):
-                return 1;
-            if collideLineLine((x0,y0),(x2,y2),wall.begin,wall.end):
-                return 1;
-            if collideLineLine((x2,y2),(x1,y1),wall.begin,wall.end):
-                return 1;
+        if collideLineLine((x0,y0),(x1,y1),(0,0),self.goal):
+            return 1;
+        if collideLineLine((x0,y0),(x2,y2),(0,0),self.goal):
+            return 1;
+        if collideLineLine((x2,y2),(x1,y1),(0,0),self.goal):
+            return 1;
         return 0;
     
     def radar(self,walls):

@@ -4,18 +4,19 @@ from robot import Robot
 from wall import Wall
 from math import cos, sin, radians
 import threading
-
+import random
 
 pygame.init()
 
 # Parametre
-maze = 1
+maze = 2
 background_color = 255, 255, 255
 NbOfRobot = 1
 fps = 99
 speed = 3
 debug = True
-
+budget = 800;
+radarRayon = 50
 # Creation des murs & choix du maze
 if maze == 1:
     size = width, height = 640, 480
@@ -53,22 +54,21 @@ finishimg = pygame.image.load("ressources/finish.png")
 finish = finishimg.get_rect()
 finish.center = finish_position
 
-
-robots = [Robot((width / 10, height * 3 / 10), robotimg, 20)
-          for i in range(NbOfRobot)]
-
-
 clock = pygame.time.Clock()
 font = pygame.font.Font(None, 30)
 
-
+def move(robot):
+    robot.move(speed, width, height, walls)
 def moveall():
     for robot in robots:
-        robot.move(speed, width, height, walls)
+        move(robot)
+        
 
+robots = [Robot((width / 10, height * 3 / 10), robotimg, radarRayon,(lambda x:random.randint(-100,100)),finish.center)
+          for i in range(NbOfRobot)]
 
 # Boucle de "Jeu"
-while 1:
+for i in range(budget):
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             sys.exit()
@@ -103,3 +103,4 @@ while 1:
     screen.blit(finishimg, finish)
     pygame.display.flip()
     clock.tick(fps)
+print("pas de budget")
