@@ -30,7 +30,7 @@ class Robot(pygame.Rect):
         # dist = int(d * 5)
         # angle = int(a * 360)
         old_center = self.center
-        angle = self.brain(self.perception(walls))
+        angle = self.brain(self.perception(walls))[0]
 
         self.angle = (self.angle + angle) % 360
 

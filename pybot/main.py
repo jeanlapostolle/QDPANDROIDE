@@ -11,9 +11,9 @@ maze = 2
 background_color = 255, 255, 255
 NbOfRobot = 1
 fps = 99
-speed = 3
+speed = 2
 debug = True
-budget = 800;
+budget = 300;
 radarRayon = 50
 # Creation des murs & choix du maze
 if maze == 1:
@@ -47,7 +47,7 @@ robotimg = pygame.image.load("ressources/robot.gif")
 finishimg = pygame.image.load("ressources/finish.png")
 
 def affichage(robot,clock,screen,finish):
-    print("fps :" + str(int(clock.get_fps())), end='\r', flush=True)
+#    print("fps :" + str(int(clock.get_fps())), end='\r', flush=True)
 
     screen.fill(background_color)
 
@@ -92,5 +92,26 @@ def simulationNavigation(brain):
         affichage(robot,clock,screen,finish);   
     pygame.quit();
     return robot.center;
-        
-a = simulationNavigation(lambda x:random.randint(-100,100));
+def simulationNavigationSansImage(brain):
+    # pygame initialization
+    pygame.init()
+    finish = finishimg.get_rect()
+    finish.center = finish_position
+    screen = pygame.display.set_mode(size)
+    clock = pygame.time.Clock()
+    font = pygame.font.Font(None, 30)
+    # creation de robot
+    robot = Robot((width / 10, height * 3 / 10), robotimg, radarRayon,brain,finish.center, speed)
+    # Boucle de "Jeu"
+    for i in range(budget):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+        # Déplacement
+        robot.move(speed, width, height, walls);
+        # Réussite
+        if finish.collidelist([robot]) != -1:
+            print("Finish est atteint")
+            break    
+    return robot.center;
+
