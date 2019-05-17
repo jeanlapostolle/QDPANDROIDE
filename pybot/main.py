@@ -2,22 +2,23 @@ import sys
 import pygame
 from robot import Robot
 from wall import Wall
-from math import cos, sin, radians
-import threading
-import random
-
+#from math import cos, sin, radians
+#import threading
+#import random
+budgetRestant = [[None for i in range(200//5)] for j in range(400//5)]; # utiliser dans mapElite
 # Parametre
 maze = 2
 background_color = 255, 255, 255
 NbOfRobot = 1
 fps = 99
-speed = 2
 debug = True
-budget = 300;
+budget = 100;
+speed = 10
 radarRayon = 50
 # Creation des murs & choix du maze
 if maze == 1:
     size = width, height = 640, 480
+    start_position = (1,1);
     finish_position = (width / 10, height / 10)
     w1 = Wall((0, height / 5), (width * 4 / 5, (height) / 5))
     w2 = Wall((width / 5, height / 5), ((width + 1) / 5, height * 4 / 5))
@@ -27,7 +28,8 @@ if maze == 1:
 
 elif maze == 2:
     size = width, height = 400, 200
-    finish_position = (width, height)
+    start_position = (width // 10, height * 3 // 10)
+    finish_position = (370,150)
     w1 = Wall((50, 80), (340, 200))
     w2 = Wall((120, 0), (70, 50))
     w3 = Wall((220, 0), (170, 70))
@@ -58,7 +60,7 @@ def affichage(robot,clock,screen,finish):
             if (i != None):
                 pygame.draw.line(screen, (0, 255, 0), robot.center, i, 1)
                 pygame.draw.rect(screen, (255, 0, 0),
-                                 pygame.Rect(i[0], i[1], 10, 10))
+                                 pygame.Rect(int(i[0]), int(i[1]), 10, 10))
 
     screen.blit(mimg, robot)
     for w in walls:
@@ -76,13 +78,14 @@ def simulationNavigation(brain):
     clock = pygame.time.Clock()
     font = pygame.font.Font(None, 30)
     # creation de robot
-    robot = Robot((width / 10, height * 3 / 10), robotimg, radarRayon,brain,finish.center, speed)
+    robot = Robot(start_position, robotimg, radarRayon,brain,finish.center, speed)
     # Boucle de "Jeu"
     for i in range(budget):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
         # Déplacement
+        budgetRestant[robot.center[0],robot.center[1]] = budget;
         robot.move(speed, width, height, walls);
         # Réussite
         if finish.collidelist([robot]) != -1:
@@ -101,7 +104,7 @@ def simulationNavigationSansImage(brain):
     clock = pygame.time.Clock()
     font = pygame.font.Font(None, 30)
     # creation de robot
-    robot = Robot((width / 10, height * 3 / 10), robotimg, radarRayon,brain,finish.center, speed)
+    robot = Robot(start_position, robotimg, radarRayon,brain,finish.center, speed)
     # Boucle de "Jeu"
     for i in range(budget):
         for event in pygame.event.get():

@@ -1,13 +1,8 @@
 import pygame
 from random import randint
-from collide import *
+import collide
 from math import cos, sin, radians
-import mlp
-# import ctypes
-
-# Load the shared library into c types.
-# libc = ctypes.CDLL("./collide.so")
-# libc.collideRectLine.argtypes =[ctypes.c_double ]*12
+import numpy as np
 
 
 class Robot(pygame.Rect):
@@ -20,18 +15,10 @@ class Robot(pygame.Rect):
         self.brain = brain
         self.goal = goal;
         self.speed = speed;
-        # self.mymlp = mlp.MLP(12, 8, 2)
-        # self.myBack = mlp.Backpropagation(self.mymlp, 0.3, 0.001)
 
     def move(self, speed, width, height, walls):
-        # Intelligence du robot (Random Walk pour l'instant)
-        # print(self.sensor(walls))
-        # d, a = self.mymlp.compute(self.sensor(walls))
-        # dist = int(d * 5)
-        # angle = int(a * 360)
-        old_center = self.center
-        angle = self.brain(self.perception(walls))[0]
-
+        angle = self.brain.predict(self.perception(walls))*360
+        
         self.angle = (self.angle + angle) % 360
 
         ox, oy = int(self.speed * cos(radians(self.angle))
@@ -39,23 +26,16 @@ class Robot(pygame.Rect):
         self.centerx += ox
         self.centery += oy
         if self.left < 0 or self.right > width or self.top < 0 or self.bottom > height:
-            self.centerx -= self.speed * ox
-            self.centery -= self.speed * oy
-
-        if self.collideWalls(walls):
-            self.centerx -= self.speed * ox
-            self.centery -= self.speed * oy
-
-        if distc(self.center, (width, height)) > distc(old_center, (width, height)):
-            res = 0
-        else:
-            res = 1
-        # myBack.iterate([d, a], [res])
+            self.centerx -= ox
+            self.centery -= oy
+        elif self.collideWalls(walls):
+            self.centerx -= ox
+            self.centery -= oy
 
     def collideWalls(self, walls):
         for w in walls:
             # print(self.topleft)
-            if collideRectLine(self.topleft, self.bottomleft, self.topright, self.bottomright, w.begin, w.end):
+            if collide.collideRectLine(self.topleft, self.bottomleft, self.topright, self.bottomright, w.begin, w.end):
                 return True
         return False
 
@@ -72,7 +52,7 @@ class Robot(pygame.Rect):
             mp = (int(self.center[0] - dist * cos(radians(self.angle + angle))),
                   int(self.center[1] + dist * sin(radians(self.angle + angle))))
             a, b = w.begin, w.end
-            p = intersect(w.begin, w.end, self.center, mp)
+            p = collide.intersect(w.begin, w.end, self.center, mp)
 
             if p != None:
                 if p[0] >= a[0] and p[0] <= b[0] and p[1] <= b[1] and p[1] >= a[1]:
@@ -90,7 +70,7 @@ class Robot(pygame.Rect):
                     #     if c < 0:
                     #         wp.append(p)
         # print(wp)
-        dp = [distc(self.center, i) for i in wp]
+        dp = [collide.distc(self.center, i) for i in wp]
         if dp != []:
             pos = dp.index(min(dp))
             return wp[pos]
@@ -105,11 +85,11 @@ class Robot(pygame.Rect):
         r = self.rayonRadar
         x1,y1 = x0-r*cos(radians(angle-45)), y0+r*sin(radians(angle-45));
         x2,y2 = x0-r*cos(radians(angle+45)), y0+r*sin(radians(angle+45));
-        if collideLineLine((x0,y0),(x1,y1),(0,0),self.goal):
+        if collide.collideLineLine((x0,y0),(x1,y1),(0,0),self.goal):
             return 1;
-        if collideLineLine((x0,y0),(x2,y2),(0,0),self.goal):
+        if collide.collideLineLine((x0,y0),(x2,y2),(0,0),self.goal):
             return 1;
-        if collideLineLine((x2,y2),(x1,y1),(0,0),self.goal):
+        if collide.collideLineLine((x2,y2),(x1,y1),(0,0),self.goal):
             return 1;
         return 0;
     
@@ -119,7 +99,7 @@ class Robot(pygame.Rect):
     def perception(self,walls):
         sensordata = self.sensor(walls)
         assert None not in sensordata
-        return [distc(self.center,i) for i in sensordata]+self.radar(walls);
+        return [collide.distc(self.center,i) for i in sensordata]+self.radar(walls);
     
 #test     
 #def radar(x0,y0,angle):
