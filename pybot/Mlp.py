@@ -93,7 +93,7 @@ def mutation(nn,probaMutation):
     nbgene = random.randint(0,len(gene));
     positionschoisies = np.random.choice(len(gene),nbgene,replace=False);
     for p in positionschoisies:
-        gene[p] = 2*np.random.rand()*gene[p]
+        gene[p] = (1/2+np.random.rand())*gene[p]
     nn.weights = nn.roll_weights(gene);
     return nn;
 

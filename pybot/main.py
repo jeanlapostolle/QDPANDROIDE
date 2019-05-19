@@ -5,6 +5,7 @@ from wall import Wall
 #from math import cos, sin, radians
 #import threading
 #import random
+pygame.init()
 budgetRestant = [[None for i in range(200//5)] for j in range(400//5)]; # utiliser dans mapElite
 # Parametre
 maze = 2
@@ -12,8 +13,8 @@ background_color = 255, 255, 255
 NbOfRobot = 1
 fps = 99
 debug = True
-budget = 100;
-speed = 10
+budget = 50;
+speed = 20
 radarRayon = 50
 # Creation des murs & choix du maze
 if maze == 1:
@@ -84,10 +85,10 @@ def simulationNavigation(brain):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-        # Déplacement
+        # Deplacement
         budgetRestant[robot.center[0],robot.center[1]] = budget;
         robot.move(speed, width, height, walls);
-        # Réussite
+        # Reussite
         if finish.collidelist([robot]) != -1:
             print("Finish est atteint")
             break
@@ -100,19 +101,19 @@ def simulationNavigationSansImage(brain):
     pygame.init()
     finish = finishimg.get_rect()
     finish.center = finish_position
-    screen = pygame.display.set_mode(size)
+#    screen = pygame.display.set_mode(size)
     clock = pygame.time.Clock()
     font = pygame.font.Font(None, 30)
     # creation de robot
     robot = Robot(start_position, robotimg, radarRayon,brain,finish.center, speed)
     # Boucle de "Jeu"
     for i in range(budget):
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                sys.exit()
-        # Déplacement
+#        for event in pygame.event.get():
+#            if event.type == pygame.QUIT:
+#                sys.exit()
+        # Deplacement
         robot.move(speed, width, height, walls);
-        # Réussite
+        # Reussite
         if finish.collidelist([robot]) != -1:
             print("Finish est atteint")
             break    

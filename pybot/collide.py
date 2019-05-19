@@ -40,10 +40,6 @@ def collidePointLine(p, l1, l2):
 
 
 def distPointLine(C, A, B):
-    # http://www.faqs.org/faqs/graphics/algorithms-faq/ §1.02
-    #     (Cx-Ax)(Bx-Ax) + (Cy-Ay)(By-Ay)
-    # r = -------------------------------
-    #      sqrt( (Bx-Ax)^2 + (By-Ay)^2 )
     num = (C[0] - A[0])(B[0] - A[0]) + (C[1] - A[1])(B[1] - A[1])
     return num / sqrt(distc(A, B))
 
