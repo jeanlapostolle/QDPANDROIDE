@@ -76,7 +76,7 @@ def eval_genomes(population,generation,nb_run):
             pos.append(positionFinale);
             dis.append(10000-distc(positionFinale,robot.finish_position))
             if butAtteint(positionFinale):
-                plotmaze(visitedPositions,"./result1805/result_pb5sur1000p01_250000evaluations/fitnessGuideMaze_{}_run_{}_generation_image_finale.png".format(nb_run,j))
+                plotmaze(visitedPositions,"./result2005soir/fitness/fitnessGuideMaze_{}_run_{}_generation_image_finale.png".format(nb_run,j))
                 return;   
         ### generer prochaine generation
         nextPopulation = [];      
@@ -94,18 +94,18 @@ def eval_genomes(population,generation,nb_run):
             nextPopulation.append(individu4);
         population = nextPopulation;
         if delta <20:
-            probMutation += 0.005
+            probMutation += 0.01
         ### plot
         #generation de graph
         if j%50 == 0 and j!=0:
-            plotmaze(visitedPositions,"./result1805/result_pb5sur1000p01_250000evaluations/fitnessGuideMaze_{}_run_{}_generation_image.png".format(nb_run,j))
+            plotmaze(visitedPositions,"./result2005soir/fitness/fitnessGuideMaze_{}_run_{}_generation_image.png".format(nb_run,j))
 
     
     
 
 ## main
 N = 250  #taille de population
-probMutation = 0.005 ## probabilite de mutation
+probMutation = 0.01 ## probabilite de mutation
 solution = None
 for nb_run in range(1,2):
     p = genererPopulation(N,[16,12,1])
