@@ -5,8 +5,8 @@ dependance:    pygame
                numpy
                PIL
 
-pour la recherche guidee par la fitness:      python mlp_fitnessGuideMaze.py
+pour la recherche guidee par la fitness:      python3 mlp_fitnessGuideMaze.py
 
-pour la recherche guidee par la nouveaute:    python mlp_noveltyGuideMaze.py
+pour la recherche guidee par la nouveaute:    python3 mlp_noveltyGuideMaze.py
 
-pour la recherche guidee par la nouveaute en utilisant l'algorithme MAP-elites:      python mapElite_NS.py
+pour la recherche guidee par la nouveaute en utilisant l'algorithme MAP-elites:      python3 mapElite_NS.py
