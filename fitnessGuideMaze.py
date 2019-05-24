@@ -76,9 +76,9 @@ def eval_genomes(population,generation,nb_run):
             pos.append(positionFinale);
             dis.append(10000-distc(positionFinale,robot.finish_position))
             if butAtteint(positionFinale):
-                plotmaze(visitedPositions,"./rf/fitnessGuideMaze_{}_run_{}_generation_image_finale.png".format(nb_run,j))
+                plotmaze(visitedPositions,"./test/fitnessGuideMaze_{}_run_{}_generation_image_finale.png".format(nb_run,j))
                 return;   
-            f = open("./rf/fitness_5_run.txt","a");
+            f = open("./test/fitness_5_run.txt","a");
             f.write(str(positionFinale)+"\n");
             f.close();
         ### generer prochaine generation
@@ -101,7 +101,7 @@ def eval_genomes(population,generation,nb_run):
         ### plot
         #generation de graph
         if j%50 == 0 and j!=0:
-            plotmaze(visitedPositions,"./rf/fitnessGuideMaze_{}_run_{}_generation_image.png".format(nb_run,j))
+            plotmaze(visitedPositions,"./test/fitnessGuideMaze_{}_run_{}_generation_image.png".format(nb_run,j))
     
     
 

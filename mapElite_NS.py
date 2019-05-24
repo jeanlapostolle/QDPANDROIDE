@@ -90,7 +90,7 @@ def varier(B):
         r.append(mutationFaible(B[i]))
     return r;
 def eval_genomes(nb_run):
-    fn = "./2305/map_"+str(nb_run)+"_run_mutationfaible.txt"
+    fn = "./test/map_"+str(nb_run)+"_run_mutationfaible.txt"
     f = open(fn,"a");
     f.close();
     global probMutation;
@@ -135,7 +135,7 @@ def eval_genomes(nb_run):
                 delta += 1;
                 # si le goal est atteint
                 if butAtteint(position):
-                    plotmaze(visitedPosition,"./2305/NS_mapElite_Maze_{}_run_{}_generation.png".format(nb_run,generation))
+                    plotmaze(visitedPosition,"./test/NS_mapElite_Maze_{}_run_{}_generation.png".format(nb_run,generation))
                     return;
             f = open(fn,"a");
             f.write(str(position)+"\n");
@@ -155,7 +155,7 @@ def eval_genomes(nb_run):
         #generation de graph
         print("generation = ",generation );
         if generation%5 == 0 and generation!=0:
-            plotmaze(visitedPosition,"./2305/NS_mapElite_Maze_{}_run_{}_generation.png".format(nb_run,generation))
+            plotmaze(visitedPosition,"./test/NS_mapElite_Maze_{}_run_{}_generation.png".format(nb_run,generation))
         if delta <20:
             probMutation += 0.01
         print("prob mutation ",probMutation);

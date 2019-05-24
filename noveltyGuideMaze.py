@@ -111,7 +111,7 @@ def eval_genomes(population,generation,nb_run):
                 delta += 1;
             # verifier si le but est atteint
             if butAtteint(positionFinale):
-                plotmaze(visitedPosition,"./2305/noveltyGuideMaze_{}_run_{}_generation.png".format(nb_run,j))
+                plotmaze(visitedPosition,"./test/noveltyGuideMaze_{}_run_{}_generation.png".format(nb_run,j))
 #                plotmaze(visitedPosition,"./test/result_pb5sur1000p01_250000evaluations/noveltyGuideMaze_{}_run_{}_generation_image_finale.png".format(nb_run,j))
                 return; 
             fn = "./2305/novelty_"+str(nb_run)+"_run.txt"
@@ -164,7 +164,7 @@ def eval_genomes(population,generation,nb_run):
         #generation de graph
         print("j=", j);
         if j%50 == 0 and j!=0:
-            plotmaze(visitedPosition,"./2305/noveltyGuideMaze_{}_run_{}_generation.png".format(nb_run,j))
+            plotmaze(visitedPosition,"./test/noveltyGuideMaze_{}_run_{}_generation.png".format(nb_run,j))
 #            plotmaze(visitedPosition,"./test/noveltyGuideMaze_{}_run_{}_generation_image.png".format(nb_run,j))
 
 
